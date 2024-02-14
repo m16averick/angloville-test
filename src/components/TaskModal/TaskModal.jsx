@@ -7,19 +7,22 @@ import { Button, Modal, Form } from "react-bootstrap";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-
 export const TaskModal = ({ children, task }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
   const schema = z.object({
-    taskName: z.string().min(1),
+    taskName: z.string().min(1, { message: "Task name is required." }),
   });
 
-  const { handleSubmit, control, getValues, setValue, register, reset } =
-    useForm({
-      resolver: zodResolver(schema),
-    });
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
 
   const onSubmit = (data) => {
     task
@@ -46,12 +49,15 @@ export const TaskModal = ({ children, task }) => {
           </Modal.Header>
           <Modal.Body>
             <Form.Group controlId="productTitle" className="mb-4">
-              <Form.Label>Task Name</Form.Label>
+              <Form.Label>Task Name*</Form.Label>
               <Form.Control
                 {...register("taskName")}
                 placeholder="Enter task name"
                 defaultValue={task?.name}
               />
+              <Form.Text style={{ color: "red" }}>
+                {errors.taskName?.message}
+              </Form.Text>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
