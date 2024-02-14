@@ -32,7 +32,7 @@ export const DeleteTaskModal = ({ task }) => {
             variant="danger"
             onClick={() => dispatch(deleteTask(task.id))}
           >
-            Delete
+            Delete task
           </Button>
         </Modal.Footer>
       </Modal>
