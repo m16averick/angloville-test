@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import "./TaskList.scss";
 
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { TaskModal } from "../TaskModal/TaskModal";
 import { TaskItem } from "../TaskItem/TaskItem";
 
@@ -14,11 +14,12 @@ export const TaskList = () => {
         <Container className="mt-4">
           <Row>
             <Col md={8} className="mx-auto mt-4 d-flex justify-content-end">
-              <TaskModal>+ Add Task</TaskModal>
+              <TaskModal>+ Add New Task</TaskModal>
             </Col>
           </Row>
           <Row>
             <Col md={8} className="mx-auto mt-4">
+              {tasks.length === 0 && <>No tasks to display...</>}
               {tasks.map((task) => (
                 <TaskItem task={task} key={task.id} />
               ))}

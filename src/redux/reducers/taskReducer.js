@@ -16,7 +16,7 @@ const taskReducer = (state = initialState, action) => {
         ...state,
         tasks: [
           ...state.tasks,
-          { id: state.tasks.length, name: action.payload },
+          { id: state.tasks.length, name: action.payload, completed: false },
         ],
       };
     case DELETE_TASK:
@@ -38,7 +38,7 @@ const taskReducer = (state = initialState, action) => {
         ...state,
         tasks: state.tasks.map((task) =>
           task.id === action.payload.taskId
-            ? { ...task, ...action.payload.newTask }
+            ? { ...task, name: action.payload.newTask }
             : task
         ),
       };

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { addTask, editTask } from "../../redux/actions/taskActions";
 
+import { Button, Modal, Form } from "react-bootstrap";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button, Modal, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { addTask } from "../../redux/actions/taskActions";
 
-export const TaskModal = ({ children }) => {
+export const TaskModal = ({ children, task }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
@@ -22,7 +22,9 @@ export const TaskModal = ({ children }) => {
     });
 
   const onSubmit = (data) => {
-    dispatch(addTask(data.taskName));
+    task
+      ? dispatch(editTask(task.id, data.taskName))
+      : dispatch(addTask(data.taskName));
     handleClose();
   };
 
@@ -40,7 +42,7 @@ export const TaskModal = ({ children }) => {
       <Modal show={show} onHide={handleClose}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Header closeButton>
-            <Modal.Title>Add Task</Modal.Title>
+            <Modal.Title>{task ? "Edit Task" : "Add Task"}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group controlId="productTitle" className="mb-4">
@@ -48,6 +50,7 @@ export const TaskModal = ({ children }) => {
               <Form.Control
                 {...register("taskName")}
                 placeholder="Enter task name"
+                defaultValue={task?.name}
               />
             </Form.Group>
           </Modal.Body>
