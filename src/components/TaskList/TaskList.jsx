@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import "./TaskList.scss";
 
 import { Container, Row, Col } from "react-bootstrap";
 import { TaskModal } from "../TaskModal/TaskModal";
